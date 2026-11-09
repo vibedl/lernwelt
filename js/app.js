@@ -105,9 +105,21 @@ function fachSeite(f) {
       <div class="fortschritt"><div style="width:${Math.round(p.anteil * 100)}%"></div></div>
       <p class="klein">${p.sterne} von ${p.max} Sternen ${st ? `· ${st.richtig} richtig, ${st.falsch} falsch` : ""}</p></section>
     <button class="bosskachel ${s.bosse[f.id] ? "besiegt" : ""}" onclick="geh('boss/${f.id}')"><div class="icon">${b.e}</div><div><b>Boss-Fight: ${esc(b.name)}</b><span>12 Aufgaben aus allen Themen, 3 Leben. ${s.bosse[f.id] ? `Besiegt mit ${s.bosse[f.id]} %` : "Noch unbesiegt"} · doppelte Münzen</span></div></button>
-    <h2>Themen</h2>
-    <div class="themen">${f.themen.map((t) => { const st2 = s.themen[f.id + "/" + t.id]; return `<button class="thema" onclick="geh('thema/${f.id}/${t.id}')"><div><b>${esc(t.titel)}</b><span>${esc(t.kurz || "")}</span></div><div class="rechts">${sterneHtml(SPIEL.sterne(f.id, t.id))}${st2 ? `<span class="klein">${st2.best} %</span>` : ""}</div></button>`; }).join("")}</div>
+    ${themenListe(f)}
     ${nav("")}`);
+}
+
+// Themenliste, nach Buchkapiteln gruppiert, wenn das Fach Kapitel kennt (t.kapitel)
+function themenListe(f) {
+  const s = SPIEL.stand;
+  const knopf = (t) => { const st2 = s.themen[f.id + "/" + t.id]; return `<button class="thema" onclick="geh('thema/${f.id}/${t.id}')"><div><b>${esc(t.titel)}</b><span>${esc(t.kurz || "")}</span></div><div class="rechts">${sterneHtml(SPIEL.sterne(f.id, t.id))}${st2 ? `<span class="klein">${st2.best} %</span>` : ""}</div></button>`; };
+  const mitKapitel = f.themen.some((t) => t.kapitel);
+  if (!mitKapitel) return `<h2>Themen</h2><div class="themen">${f.themen.map(knopf).join("")}</div>`;
+  const gruppen = new Map();
+  for (const t of f.themen) { const k = t.kapitel || "Weitere Themen (nicht im Buch)"; if (!gruppen.has(k)) gruppen.set(k, []); gruppen.get(k).push(t); }
+  const rang = (k) => { const m = k.match(/^(?:Kapitel|Theme)\s+(\d+)/i); if (m) return +m[1]; if (/^Einstieg/i.test(k)) return 0; if (/^Weitere/.test(k)) return 99; if (/^Wiederholung/i.test(k)) return 95; return 90; };
+  const sortiert = [...gruppen.entries()].sort((a, b) => rang(a[0]) - rang(b[0]));
+  return `<h2>Kapitel im Buch${f.buch ? ` <small>${esc(f.buch)}</small>` : ""}</h2>${sortiert.map(([k, liste]) => `<h3 class="kapitel">${esc(k)}</h3><div class="themen">${liste.map(knopf).join("")}</div>`).join("")}`;
 }
 
 // ---------- Thema ----------
