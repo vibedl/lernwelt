@@ -80,14 +80,14 @@ function start() {
   const schwach = SPIEL.schwaechstesFach();
   zeige(`${kopfzeile()}
     <section class="quests">
-      <h2>Tagesquests <small>${quests.filter((q) => q.fertig).length}/${quests.length}</small></h2>
+      <h2>Daily Quests <small>${quests.filter((q) => q.fertig).length}/${quests.length}</small></h2>
       ${quests.map((q) => `<div class="quest ${q.fertig ? "fertig" : ""}"><div><div>${q.fertig ? "✅" : "▫️"} ${esc(q.text)}</div><div class="mini"><div style="width:${Math.round(100 * q.stand / q.ziel)}%"></div></div></div><div class="lohn">${q.stand}/${q.ziel}<br>+${q.lohn} 🪙</div></div>`).join("")}
     </section>
     <div class="reihe schnell">
-      <button class="haupt" onclick="geh('mix')">🎲 Tagesmix<small>12 Aufgaben quer durch alles</small></button>
+      <button class="haupt" onclick="geh('mix')">🎲 Tagesmix<small>12 Aufgaben · Loot aus allen Fächern</small></button>
       ${schwach ? `<button class="neben" onclick="geh('schwach')">💪 Schwachstelle<small>${esc(fach(schwach).name)} üben</small></button>` : ""}
     </div>
-    <h2>Deine Fächer</h2>
+    <h2>Deine Welten</h2>
     <div class="faecher">${window.FAECHER.map((f) => { const p = SPIEL.fachFortschritt(f); return `<button class="fachkachel" style="--f:${f.farbe}" onclick="geh('fach/${f.id}')">
       <div class="icon">${f.icon}</div><div class="fachtext"><b>${esc(f.name)}</b><span>${esc(f.beschreibung)}</span>
       <div class="mini"><div style="width:${Math.round(p.anteil * 100)}%"></div></div><span class="klein">${p.sterne}/${p.max} ★ · ${f.themen.length} Themen ${s.bosse[f.id] ? "· Boss besiegt ⚔️" : ""}</span></div></button>`; }).join("")}
@@ -104,7 +104,7 @@ function fachSeite(f) {
     <section class="kopf" style="--f:${f.farbe}"><div class="fachkopf"><div class="icon">${f.icon}</div><div><h1>${esc(f.name)}</h1><p>${esc(f.beschreibung)}</p></div></div>
       <div class="fortschritt"><div style="width:${Math.round(p.anteil * 100)}%"></div></div>
       <p class="klein">${p.sterne} von ${p.max} Sternen ${st ? `· ${st.richtig} richtig, ${st.falsch} falsch` : ""}</p></section>
-    <button class="bosskachel ${s.bosse[f.id] ? "besiegt" : ""}" onclick="geh('boss/${f.id}')"><div class="icon">${b.e}</div><div><b>Boss-Kampf: ${esc(b.name)}</b><span>12 Aufgaben aus allen Themen, 3 Leben. ${s.bosse[f.id] ? `Besiegt mit ${s.bosse[f.id]} %` : "Noch unbesiegt"} · doppelte Münzen</span></div></button>
+    <button class="bosskachel ${s.bosse[f.id] ? "besiegt" : ""}" onclick="geh('boss/${f.id}')"><div class="icon">${b.e}</div><div><b>Boss-Fight: ${esc(b.name)}</b><span>12 Aufgaben aus allen Themen, 3 Leben. ${s.bosse[f.id] ? `Besiegt mit ${s.bosse[f.id]} %` : "Noch unbesiegt"} · doppelte Münzen</span></div></button>
     <h2>Themen</h2>
     <div class="themen">${f.themen.map((t) => { const st2 = s.themen[f.id + "/" + t.id]; return `<button class="thema" onclick="geh('thema/${f.id}/${t.id}')"><div><b>${esc(t.titel)}</b><span>${esc(t.kurz || "")}</span></div><div class="rechts">${sterneHtml(SPIEL.sterne(f.id, t.id))}${st2 ? `<span class="klein">${st2.best} %</span>` : ""}</div></button>`; }).join("")}</div>
     ${nav("")}`);
@@ -119,7 +119,7 @@ function themaSeite(f, t) {
     <h1 class="themat">${esc(t.titel)}</h1><p class="klein">${esc(t.kurz || "")} · ${anzahl} Aufgaben ${st ? `· Bestwert ${st.best} % · ${st.runden} Runde${st.runden === 1 ? "" : "n"}` : ""} ${sterneHtml(SPIEL.sterne(f.id, t.id))}</p>
     ${t.erklaerung ? `<details class="regel" ${st ? "" : "open"}><summary>Erklärung</summary><div class="erkl">${t.erklaerung}</div></details>` : ""}
     ${t.hoertext ? `<div class="hoer">${lautBtn(t.hoertext, t.lang || f.lang || "en-GB")} <span>Hörtext anhören (der Text wird nicht angezeigt – wie im Test)</span></div>` : ""}
-    <button class="haupt" onclick="geh('ueben/${f.id}/${t.id}')">▶ Üben – 10 Aufgaben</button>
+    <button class="haupt" onclick="geh('ueben/${f.id}/${t.id}')">▶ Mission starten – 10 Aufgaben</button>
     ${karten.length ? `<button class="neben breit" onclick="geh('karten/${f.id}/${t.id}')">🃏 Karteikarten lernen (${karten.length})</button>` : ""}
     <p class="hinweis">3 Sterne ab 90 %, 2 ab 70 %, 1 ab 50 %. Jede richtige Antwort bringt 10 XP, eine fehlerfreie Runde 30 XP extra.</p>
     ${nav("")}`);
@@ -142,7 +142,7 @@ function boss(f) {
     <div class="bossintro"><div class="bossgross">${b.e}</div><h1>${esc(b.name)}</h1>
     <p>12 Aufgaben aus allen Themen von <b>${esc(f.name)}</b>. Jede richtige Antwort zieht dem Boss 1 HP ab. Du hast <b>3 Leben</b> – bei jedem Fehler geht eins verloren.</p>
     <p>Sieg ab 70 % (mindestens 9 Treffer) · XP ×1,5 · Münzen ×2</p>
-    <button class="haupt" id="los">⚔️ Kampf beginnen</button></div>${nav("")}`);
+    <button class="haupt" id="los">⚔️ Fight!</button></div>${nav("")}`);
   $("#los").onclick = () => {
     rundeAktiv = true;
     const themen = mischen(f.themen.filter((t) => !t.hoertext)); const liste = [];
@@ -174,9 +174,10 @@ function rundenErgebnis(erg, ctx) {
   if (erg.abgebrochen && erg.gesamt && erg.richtig + erg.fehler.length < 3) return geh(ctx.zurueck); // kaum gespielt → nichts werten
   const gespielt = erg.abgebrochen ? erg.richtig + erg.fehler.length : erg.gesamt;
   const r = SPIEL.rundeAbschliessen({ fachId: ctx.f ? ctx.f.id : "mix", themaId: ctx.t ? ctx.t.id : null, richtig: erg.richtig, gesamt: ctx.boss ? erg.gesamt : gespielt, boss: !!ctx.boss, kombMax: erg.komboMax });
-  if (r.levelUp) ton("level");
-  const titel = ctx.boss ? (r.bossSieg ? `🏆 ${ctx.boss.name} besiegt!` : erg.verloren ? `💀 ${ctx.boss.name} hat gewonnen` : `😤 Knapp daneben`) : r.proz === 100 ? "💯 Perfekt!" : r.proz >= 70 ? "👍 Gut gemacht!" : r.proz >= 50 ? "🙂 Geht schon" : "💪 Weiter üben";
-  zeige(`<div class="ergebnis">
+  if (r.levelUp) { ton("level"); levelFlash(SPIEL.level(), SPIEL.levelInfo().titel); }
+  const sieg = ctx.boss ? r.bossSieg : r.proz >= 90; if (sieg) konfetti();
+  const titel = ctx.boss ? (r.bossSieg ? `🏆 Victory! ${ctx.boss.name} besiegt` : erg.verloren ? `💀 Defeat – ${ctx.boss.name} hat gewonnen` : `😤 Knapp daneben`) : r.proz === 100 ? "💯 Flawless!" : r.proz >= 90 ? "🔥 Stark!" : r.proz >= 70 ? "👍 Gut gemacht!" : r.proz >= 50 ? "🙂 Geht schon" : "💪 Weiter grinden";
+  zeige(`<div class="ergebnis ${sieg ? "sieg" : ctx.boss && erg.verloren ? "niederlage" : ""}">
       <div class="titel">${titel}</div>
       <div class="gross">${erg.richtig} / ${ctx.boss ? erg.gesamt : gespielt}</div>
       <div>${r.proz} %${ctx.t ? " · " + sterneHtml(r.sterne) : ""}${erg.komboMax >= 3 ? ` · beste Kombo ×${erg.komboMax}` : ""}</div>
@@ -203,7 +204,8 @@ function shop() {
   const gruppe = (titel, liste, art) => `<h2>${titel}</h2><div class="shopgrid">${liste.map((x) => {
     const hat = s.gekauft.includes(x.id), aktiv = art === "avatar" ? s.avatar === x.id : art === "theme" ? s.theme === x.id : s.titel === x.id;
     const vorschau = art === "avatar" ? `<span class="big">${x.e}</span>` : art === "theme" ? `<span class="swatch" style="background:linear-gradient(135deg,${x.farben.akzent},${x.farben.akzent2});border-color:${x.farben.bg}"></span>` : `<span class="big">🏷️</span>`;
-    return `<button class="shopitem ${aktiv ? "aktiv" : ""} ${hat ? "" : "zu"}" data-art="${art}" data-id="${x.id}" data-preis="${x.preis}">${vorschau}<b>${esc(x.name)}</b><span>${aktiv ? "Ausgewählt ✓" : hat ? "Auswählen" : `${x.preis} 🪙`}</span></button>`; }).join("")}</div>`;
+    const rar = x.preis >= 500 ? "legendaer" : x.preis >= 200 ? "episch" : x.preis >= 100 ? "selten" : "";
+    return `<button class="shopitem ${aktiv ? "aktiv" : ""} ${hat ? "" : "zu"} ${rar ? "r-" + rar : ""}" data-art="${art}" data-id="${x.id}" data-preis="${x.preis}">${rar ? `<span class="rar ${rar}">${rar === "legendaer" ? "Legendär" : rar === "episch" ? "Episch" : "Selten"}</span>` : ""}${vorschau}<b>${esc(x.name)}</b><span>${aktiv ? "Ausgewählt ✓" : hat ? "Auswählen" : `${x.preis} 🪙`}</span></button>`; }).join("")}</div>`;
   zeige(`${kopfzeile()}<h1>Shop</h1><p class="klein">Münzen verdienst du mit jeder Runde, Quests und Boss-Kämpfen. Du hast <b>${s.muenzen} 🪙</b>.</p>
     ${gruppe("Begleiter", AVATARE, "avatar")}${gruppe("Farbwelten", THEMES, "theme")}${gruppe("Titel", TITEL, "titel")}${nav("shop")}`);
   $$(".shopitem").forEach((b) => b.onclick = () => {
@@ -255,6 +257,19 @@ function einstellungen() {
   $("#export").onclick = () => { $("#code").value = btoa(unescape(encodeURIComponent(JSON.stringify(s)))); $("#code").select(); try { navigator.clipboard.writeText($("#code").value); } catch { /* egal */ } };
   $("#import").onclick = () => { try { const g = JSON.parse(decodeURIComponent(escape(atob($("#code").value.trim())))); if (!g || typeof g.xp !== "number") throw 0; if (confirm("Aktuellen Spielstand durch den Code ersetzen?")) { SPIEL.stand = Object.assign(SPIEL.neu(), g); SPIEL.sichern(); SPIEL.themeAnwenden(); geh(""); } } catch { alert("Der Code ist ungültig."); } };
   $("#reset").onclick = () => { if (confirm("Wirklich alles löschen? Das kann nicht rückgängig gemacht werden.")) { SPIEL.zuruecksetzen(); geh(""); route(); } };
+}
+
+// ---------- Effekte ----------
+function levelFlash(level, titel) {
+  const d = document.createElement("div"); d.className = "levelflash"; d.innerHTML = `<b>Level ${level}</b><span>${esc(titel)}</span>`;
+  document.body.appendChild(d); setTimeout(() => d.remove(), 2300);
+}
+function konfetti() {
+  const c = document.createElement("canvas"); c.className = "konfetti"; c.width = innerWidth; c.height = innerHeight; document.body.appendChild(c);
+  const ctx = c.getContext("2d"), farben = ["#7c5cff", "#00e5ff", "#ffc83d", "#22e58a", "#ff3d6e", "#ffffff"];
+  const teile = Array.from({ length: 120 }, () => ({ x: Math.random() * c.width, y: -20 - Math.random() * c.height * .5, vx: (Math.random() - .5) * 3, vy: 2 + Math.random() * 4, r: 4 + Math.random() * 5, f: farben[Math.floor(Math.random() * farben.length)], w: Math.random() * 6.28 }));
+  let t = 0; const lauf = () => { ctx.clearRect(0, 0, c.width, c.height); for (const p of teile) { p.x += p.vx; p.y += p.vy; p.w += .1; ctx.fillStyle = p.f; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.w); ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); ctx.restore(); } if (++t < 160) requestAnimationFrame(lauf); else c.remove(); };
+  requestAnimationFrame(lauf);
 }
 
 // ---------- Start ----------

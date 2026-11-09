@@ -60,6 +60,7 @@ function laufeAufgaben(aufgaben, opt) {
     $("#weiter").onclick = () => { i++; if (opt.boss && herzen <= 0) return ende(); if (i >= n) return ende(); zeichne(); };
     // Kopf aktualisieren (Kombo, HP)
     $("#lk").innerHTML = kopf(); $("#abbruch").onclick = () => ende(true);
+    if (opt.boss && ok) { const bb = $(".boss"); if (bb) bb.classList.add("treffer"); }
     if (opt.boss && herzen <= 0) { $("#weiter").textContent = "Ergebnis ›"; }
   };
 

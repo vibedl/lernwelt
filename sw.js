@@ -1,5 +1,5 @@
 // Offline-Betrieb: erst Cache, im Hintergrund erneuern (neue Version beim nächsten Öffnen).
-const CACHE = "lernwelt-20261109092415";
+const CACHE = "lernwelt-20261109102534";
 const DATEIEN = ["./", "index.html", "style.css", "icon.svg", "manifest.webmanifest",
   "js/kern.js", "js/spiel.js", "js/laeufer.js", "js/werkzeuge.js", "js/app.js",
   "faecher/mathe.js", "faecher/englisch_australien_daten.js", "faecher/englisch_allgemein.js", "faecher/englisch.js", "faecher/deutsch.js",

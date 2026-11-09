@@ -9,18 +9,18 @@ const AVATARE = [
   { id: "alien", e: "👽", name: "Alien", preis: 300 }, { id: "krone", e: "👑", name: "Königskrone", preis: 500 }, { id: "phoenix", e: "🔥", name: "Phönix", preis: 800 },
 ];
 const THEMES = [
-  { id: "sonne", name: "Sonnenaufgang", preis: 0, farben: { bg: "#fdf6ee", karte: "#ffffff", text: "#2b2118", leise: "#7b6a5c", akzent: "#e0632f", akzent2: "#f0a040", rand: "#ead9c6" } },
-  { id: "ozean", name: "Ozean", preis: 100, farben: { bg: "#eef6fb", karte: "#ffffff", text: "#13283a", leise: "#5d7488", akzent: "#1f7ac9", akzent2: "#36b4d8", rand: "#cfe0ee" } },
-  { id: "wald", name: "Dschungel", preis: 100, farben: { bg: "#eff7ee", karte: "#ffffff", text: "#1c2e1a", leise: "#5f7a5c", akzent: "#2e8b57", akzent2: "#7cc04a", rand: "#cfe3cc" } },
-  { id: "nacht", name: "Nachtmodus", preis: 150, farben: { bg: "#15131c", karte: "#231f2e", text: "#f1ecff", leise: "#a79fc4", akzent: "#8f6cff", akzent2: "#5bd0ff", rand: "#3a3350" } },
-  { id: "lava", name: "Lava", preis: 250, farben: { bg: "#1b1212", karte: "#2a1a1a", text: "#ffeee6", leise: "#c99b8a", akzent: "#ff5a2e", akzent2: "#ffb02e", rand: "#4a2a24" } },
-  { id: "gold", name: "Gold-Edition", preis: 600, farben: { bg: "#fbf6e4", karte: "#fffdf4", text: "#3a2d0a", leise: "#8a7a4a", akzent: "#c9962a", akzent2: "#e8c45a", rand: "#eadfb8" } },
+  { id: "sonne", name: "Neon Violet", preis: 0, farben: { bg: "#0b0f1a", bg2: "#161b33", karte: "rgba(255,255,255,.055)", text: "#eef1ff", leise: "#8e97b8", akzent: "#7c5cff", akzent2: "#00e5ff", rand: "rgba(255,255,255,.12)", glow: "rgba(124,92,255,.45)" } },
+  { id: "ozean", name: "Deep Ocean", preis: 100, farben: { bg: "#06121f", bg2: "#0b2238", karte: "rgba(255,255,255,.055)", text: "#e8f4ff", leise: "#86a6c4", akzent: "#1f8fff", akzent2: "#22e5d0", rand: "rgba(255,255,255,.12)", glow: "rgba(31,143,255,.45)" } },
+  { id: "wald", name: "Toxic Green", preis: 100, farben: { bg: "#070f0b", bg2: "#0f2418", karte: "rgba(255,255,255,.055)", text: "#eafff2", leise: "#86b398", akzent: "#17c964", akzent2: "#c6ff3d", rand: "rgba(255,255,255,.12)", glow: "rgba(23,201,100,.45)" } },
+  { id: "nacht", name: "Midnight Purple", preis: 150, farben: { bg: "#0a0612", bg2: "#1a0f2e", karte: "rgba(255,255,255,.06)", text: "#f3eaff", leise: "#a28fc4", akzent: "#b14bff", akzent2: "#ff4fd8", rand: "rgba(255,255,255,.12)", glow: "rgba(177,75,255,.5)" } },
+  { id: "lava", name: "Lava Core", preis: 250, farben: { bg: "#120808", bg2: "#2a0f0a", karte: "rgba(255,255,255,.06)", text: "#fff0e8", leise: "#c49a8a", akzent: "#ff4d2e", akzent2: "#ffb02e", rand: "rgba(255,255,255,.12)", glow: "rgba(255,77,46,.5)" } },
+  { id: "gold", name: "Gold Edition", preis: 600, farben: { bg: "#0f0c05", bg2: "#241a08", karte: "rgba(255,255,255,.06)", text: "#fff7df", leise: "#bca878", akzent: "#e0a21f", akzent2: "#ffe27a", rand: "rgba(255,220,120,.2)", glow: "rgba(224,162,31,.5)" } },
 ];
 const TITEL = [
   { id: "neuling", name: "Neuling", preis: 0 }, { id: "streber", name: "Streber (im besten Sinn)", preis: 80 }, { id: "entdecker", name: "Entdecker", preis: 120 },
   { id: "bosskiller", name: "Boss-Bezwinger", preis: 200 }, { id: "nachteule", name: "Nachteule", preis: 150 }, { id: "legende", name: "Lebende Legende", preis: 1000 },
 ];
-const LEVEL_TITEL = ["Frischling", "Neuling", "Lehrling", "Entdecker", "Kenner", "Könner", "Profi", "Experte", "Meister", "Großmeister", "Legende"];
+const LEVEL_TITEL = ["Rookie", "Rookie", "Scout", "Fighter", "Hunter", "Elite", "Veteran", "Champion", "Meister", "Mythisch", "Legende"];
 
 // XP, die für Level n insgesamt nötig sind (Level 1 = 0 XP)
 const xpFuerLevel = (n) => Math.round(60 * (n - 1) * (n + 2) / 2);
