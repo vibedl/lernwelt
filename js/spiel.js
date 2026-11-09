@@ -49,6 +49,8 @@ const ABZEICHEN = [
   { id: "frueh", e: "🌅", name: "Frühaufsteher", text: "Vor 7 Uhr gelernt", pruefe: (s) => s.statistik.frueh },
   { id: "nacht", e: "🦉", name: "Nachteule", text: "Nach 22 Uhr gelernt", pruefe: (s) => s.statistik.nacht },
   { id: "shopper", e: "🛍️", name: "Shopper", text: "Etwas im Shop gekauft", pruefe: (s) => s.gekauft.length > 5 },
+  { id: "timer10", e: "⏱️", name: "Fokus-Profi", text: "10 Lernrunden mit dem Timer", pruefe: (s) => (s.statistik.timerRunden || 0) >= 10 },
+  { id: "eigene20", e: "🗂️", name: "Selbstgemacht", text: "20 eigene Karteikarten angelegt", pruefe: (s) => (s.eigene || []).reduce((a, x) => a + x.karten.length, 0) >= 20 },
   { id: "vokabel100", e: "🗣️", name: "Wortschatz", text: "100 Vokabelkarten als „kann ich“ markiert", pruefe: (s) => Object.keys(s.gekonnt).length >= 100 },
 ];
 
@@ -64,6 +66,7 @@ const QUEST_VORLAGEN = [
   { id: "sterne1", text: "Hole in einem Thema 3 Sterne", ziel: 1, zaehler: "dreisterne", lohn: 40 },
   { id: "karten10", text: "Lerne 10 Karteikarten", ziel: 10, zaehler: "karten", lohn: 25 },
   { id: "schwach", text: "Übe eine Runde in deinem schwächsten Fach", ziel: 1, zaehler: "schwach", lohn: 45 },
+  { id: "timer1", text: "Schaffe eine 25-Minuten-Lernrunde mit dem Timer", ziel: 1, zaehler: "timer", lohn: 40 },
 ];
 
 const SPIEL = {

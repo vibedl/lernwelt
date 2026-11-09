@@ -8,6 +8,7 @@ const BOSSE = {
   mathe: { name: "Der Zahlendrache", e: "🐲" }, englisch: { name: "The Grammar Kraken", e: "🐙" }, deutsch: { name: "Der Kommakrake", e: "🦑" },
   physik: { name: "Blitzgolem", e: "⚡🗿" }, chemie: { name: "Die Säureschlange", e: "🐍" }, biologie: { name: "Mutanten-Mammut", e: "🦣" },
   geschichte: { name: "Der Zeitwächter", e: "⏳" }, erdkunde: { name: "Der Weltenriese", e: "🗿" }, politik: { name: "Der Paragrafenlöwe", e: "🦁" },
+  informatik: { name: "Der Bug-Bot", e: "🤖" }, religion: { name: "Der Sphinx-Wächter", e: "🗿" }, kunstmusik: { name: "Der Farbenphantom", e: "🎭" }, lernen: { name: "Der Prokrastinator", e: "🦥" },
 };
 const bossFuer = (f) => BOSSE[f.id] || { name: `Boss von ${f.name}`, e: "👹" };
 const fach = (id) => window.FAECHER.find((f) => f.id === id);
@@ -33,6 +34,11 @@ function route() {
     case "profil": return profil();
     case "abzeichen": return abzeichenSeite();
     case "einstellungen": return einstellungen();
+    case "werkzeuge": return werkzeuge();
+    case "timer": return timer();
+    case "termine": return termine();
+    case "eigene": return eigene(a);
+    case "spick": return spick(a);
     default: return start();
   }
 }
@@ -41,6 +47,7 @@ window.addEventListener("hashchange", route);
 const nav = (aktiv) => `<nav class="unten">
   <button class="${aktiv === "start" ? "aktiv" : ""}" onclick="geh('')"><span>🏠</span>Start</button>
   <button class="${aktiv === "mix" ? "aktiv" : ""}" onclick="geh('mix')"><span>🎲</span>Mix</button>
+  <button class="${aktiv === "werkzeuge" ? "aktiv" : ""}" onclick="geh('werkzeuge')"><span>🧰</span>Tools</button>
   <button class="${aktiv === "shop" ? "aktiv" : ""}" onclick="geh('shop')"><span>🛍️</span>Shop</button>
   <button class="${aktiv === "profil" ? "aktiv" : ""}" onclick="geh('profil')"><span>${SPIEL.avatar().e}</span>Profil</button></nav>`;
 
@@ -111,6 +118,7 @@ function themaSeite(f, t) {
   zeige(`<div class="laufkopf"><button class="zurueck" onclick="geh('fach/${f.id}')">‹ ${esc(f.name)}</button></div>
     <h1 class="themat">${esc(t.titel)}</h1><p class="klein">${esc(t.kurz || "")} · ${anzahl} Aufgaben ${st ? `· Bestwert ${st.best} % · ${st.runden} Runde${st.runden === 1 ? "" : "n"}` : ""} ${sterneHtml(SPIEL.sterne(f.id, t.id))}</p>
     ${t.erklaerung ? `<details class="regel" ${st ? "" : "open"}><summary>Erklärung</summary><div class="erkl">${t.erklaerung}</div></details>` : ""}
+    ${t.hoertext ? `<div class="hoer">${lautBtn(t.hoertext, t.lang || f.lang || "en-GB")} <span>Hörtext anhören (der Text wird nicht angezeigt – wie im Test)</span></div>` : ""}
     <button class="haupt" onclick="geh('ueben/${f.id}/${t.id}')">▶ Üben – 10 Aufgaben</button>
     ${karten.length ? `<button class="neben breit" onclick="geh('karten/${f.id}/${t.id}')">🃏 Karteikarten lernen (${karten.length})</button>` : ""}
     <p class="hinweis">3 Sterne ab 90 %, 2 ab 70 %, 1 ab 50 %. Jede richtige Antwort bringt 10 XP, eine fehlerfreie Runde 30 XP extra.</p>
@@ -121,7 +129,8 @@ function themaSeite(f, t) {
 function ueben(f, t) {
   rundeAktiv = true;
   const liste = aufgabenFuer(t, 10);
-  laufeAufgaben(liste, { lang: t.lang || f.lang, vorText: t.vorText || "", zurueckText: t.titel, fertig: (erg) => rundenErgebnis(erg, { f, t, zurueck: `thema/${f.id}/${t.id}`, nochmal: `ueben/${f.id}/${t.id}` }) });
+  const vorText = t.vorText || (t.hoertext ? `<div class="hoer">${lautBtn(t.hoertext, t.lang || f.lang || "en-GB")} <span>Hörtext anhören – so oft du willst. Lies erst die Frage, dann hör zu.</span></div>` : "");
+  laufeAufgaben(liste, { lang: t.lang || f.lang, vorText, zurueckText: t.titel, fertig: (erg) => rundenErgebnis(erg, { f, t, zurueck: `thema/${f.id}/${t.id}`, nochmal: `ueben/${f.id}/${t.id}` }) });
 }
 function karten(f, t) {
   const liste = (t.aufgaben || []).filter((a) => a.t === "karte");
@@ -136,7 +145,7 @@ function boss(f) {
     <button class="haupt" id="los">⚔️ Kampf beginnen</button></div>${nav("")}`);
   $("#los").onclick = () => {
     rundeAktiv = true;
-    const themen = mischen(f.themen); const liste = [];
+    const themen = mischen(f.themen.filter((t) => !t.hoertext)); const liste = [];
     for (let i = 0; liste.length < 12 && i < 60; i++) { const t = themen[i % themen.length]; const a = aufgabenFuer(t, 1)[0]; if (a && !liste.some((x) => x.f === a.f)) liste.push(a); }
     laufeAufgaben(mischen(liste), { lang: f.lang, boss: b, zurueckText: "Aufgeben", fertig: (erg) => rundenErgebnis(erg, { f, boss: b, zurueck: `fach/${f.id}`, nochmal: `boss/${f.id}` }) });
   };
@@ -144,7 +153,7 @@ function boss(f) {
 function zufallsAufgaben(n, faecherListe) {
   const liste = [];
   for (let i = 0; liste.length < n && i < n * 8; i++) {
-    const f = RNG.pick(faecherListe), t = RNG.pick(f.themen); const a = aufgabenFuer(t, 1)[0];
+    const f = RNG.pick(faecherListe), t = RNG.pick(f.themen.filter((x) => !x.hoertext)); const a = aufgabenFuer(t, 1)[0];
     if (a && !liste.some((x) => x.f === a.f)) { a.lang = a.lang || f.lang; a.fachName = f.name; liste.push(a); }
   }
   return liste;

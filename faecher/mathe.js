@@ -159,7 +159,7 @@
       },
     },
     {
-      id: "trigonometrie", titel: "Trigonometrie (sin, cos, tan)", kurz: "Seitenverhältnisse im rechtwinkligen Dreieck – Vorgriff auf Klasse 10",
+      id: "trigonometrie", titel: "Trigonometrie (sin, cos, tan)", kurz: "Seitenverhältnisse im rechtwinkligen Dreieck (E-Kurs)",
       erklaerung: `<p>Im rechtwinkligen Dreieck, für einen spitzen Winkel α:</p><p><b>sin α</b> = Gegenkathete / Hypotenuse · <b>cos α</b> = Ankathete / Hypotenuse · <b>tan α</b> = Gegenkathete / Ankathete.</p><p>Merkhilfe: <i>GAGA HühnerHof AG</i> (Gegenkathete, Ankathete, Gegenkathete, Ankathete – Hypotenuse, Hypotenuse, Ankathete, Gegenkathete).</p><p>Wichtige Werte: sin 30° = 0,5 · cos 60° = 0,5 · tan 45° = 1 · sin 90° = 1. Taschenrechner auf DEG stellen!</p>`,
       gen: (rng) => {
         const art = rng.int(1, 4); const rad = (g) => g * Math.PI / 180;

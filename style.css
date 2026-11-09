@@ -116,3 +116,12 @@ details{background:var(--karte);border:1px solid var(--rand);border-radius:14px;
 @keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
 @keyframes wackel{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @keyframes schweb{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* Werkzeuge */
+.timer{background:var(--karte);border:1px solid var(--rand);border-radius:20px;padding:24px;text-align:center}
+.timer .modus{font-weight:700;color:var(--leise)}.timer .uhr{font-size:72px;font-weight:800;color:var(--akzent);font-variant-numeric:tabular-nums;line-height:1.1}
+.timer.pause .uhr{color:var(--gut)}.timer .balken{margin:14px 0}
+select{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--rand);border-radius:12px;background:var(--karte);color:var(--text)}
+.termin.bald{border-color:var(--schlecht)}.termin.vorbei{opacity:.5}.termin .reihe{margin-top:8px}.termin .reihe .neben{padding:8px 12px;min-height:0;font-size:14px}
+.thema .leise{margin:0;flex:none}
+.hoer{display:flex;align-items:center;gap:10px;background:var(--karte);border:1px solid var(--rand);border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:15px;color:var(--leise)}
