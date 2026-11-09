@@ -1,0 +1,118 @@
+:root{--bg:#fdf6ee;--karte:#fff;--text:#2b2118;--leise:#7b6a5c;--akzent:#e0632f;--akzent2:#f0a040;--gut:#2e8b57;--schlecht:#c0392b;--rand:#ead9c6;--gold:#e5a50a}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%;transition:background .3s}
+main{max-width:680px;margin:0 auto;padding:12px 16px calc(84px + env(safe-area-inset-bottom))}
+.laden{text-align:center;color:var(--leise);margin-top:40vh}
+h1{margin:0 0 4px;font-size:28px;line-height:1.2}h2{font-size:20px;margin:18px 0 10px}h2 small{color:var(--leise);font-weight:400;font-size:15px}h3{margin:22px 0 8px;font-size:18px}
+.klein{font-size:14px;color:var(--leise)}.mitte{text-align:center}.hinweis{font-size:14px;color:var(--leise);margin-top:18px}
+button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;color:inherit}
+.haupt,.neben,.gut,.schlecht{border:0;border-radius:14px;padding:13px 18px;font-weight:600;min-height:50px}
+.haupt{background:var(--akzent);color:#fff;width:100%;margin-top:12px;box-shadow:0 4px 0 color-mix(in srgb,var(--akzent) 70%,#000)}
+.haupt:active{transform:translateY(2px);box-shadow:0 2px 0 color-mix(in srgb,var(--akzent) 70%,#000)}
+.neben{background:var(--karte);border:2px solid var(--rand);color:var(--text)}.neben.breit{width:100%;margin-top:10px}
+.gut{background:var(--gut);color:#fff;flex:1}.schlecht{background:var(--schlecht);color:#fff;flex:1}
+.reihe{display:flex;gap:10px;align-items:center;margin-top:12px}.reihe .haupt{margin-top:0;flex:1}.reihe input{flex:1}
+.schnell button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:2px;flex:1;margin:0}.schnell button small{font-weight:400;font-size:13px;opacity:.85}
+.zurueck{background:none;border:0;color:var(--akzent);padding:6px 0;font-weight:600}
+.leise{background:none;border:0;color:var(--leise);text-decoration:underline;font-size:14px;margin-top:8px}
+input,textarea{width:100%;font:inherit;font-size:19px;padding:13px 14px;border:2px solid var(--rand);border-radius:12px;background:var(--karte);color:var(--text)}
+input:focus,textarea:focus{outline:none;border-color:var(--akzent)}textarea{font-size:14px;font-family:ui-monospace,monospace}
+ul,ol{padding-left:22px}li{margin-bottom:6px}
+.laut{background:var(--karte);border:1px solid var(--rand);border-radius:50%;width:40px;height:40px;flex:none;font-size:17px;vertical-align:middle;padding:0}
+
+/* Spielkopf */
+.spielkopf{display:flex;align-items:center;gap:12px;background:var(--karte);border:1px solid var(--rand);border-radius:18px;padding:12px 14px;cursor:pointer}
+.avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--akzent),var(--akzent2));display:flex;align-items:center;justify-content:center;font-size:30px;flex:none}
+.avatar.gross{width:76px;height:76px;font-size:44px}
+.spielinfo{flex:1;min-width:0}.levelzeile{display:flex;align-items:center;gap:8px;margin-top:4px}
+.level{font-weight:800;color:var(--akzent);font-size:15px;white-space:nowrap}
+.xpbalken{flex:1;height:10px;background:var(--rand);border-radius:5px;overflow:hidden}.xpbalken div{height:100%;background:linear-gradient(90deg,var(--akzent),var(--akzent2));transition:width .5s}
+.levelzeile .klein{white-space:nowrap;font-size:12px}
+.werte{text-align:right;font-weight:700;font-size:15px;white-space:nowrap}.werte .heiss{color:#e8590c}
+
+/* Quests */
+.quests{margin-top:14px}
+.quest{display:flex;align-items:center;gap:12px;background:var(--karte);border:1px solid var(--rand);border-radius:14px;padding:10px 14px;margin-bottom:8px}
+.quest>div:first-child{flex:1}.quest.fertig{opacity:.7}.quest .lohn{text-align:right;font-size:13px;color:var(--leise);white-space:nowrap}
+.mini{height:6px;background:var(--rand);border-radius:3px;overflow:hidden;margin-top:6px}.mini div{height:100%;background:var(--akzent);transition:width .4s}
+
+/* Fächer */
+.faecher{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+@media (max-width:420px){.faecher{grid-template-columns:1fr}}
+.fachkachel{display:flex;gap:12px;align-items:flex-start;text-align:left;background:var(--karte);border:1px solid var(--rand);border-left:6px solid var(--f);border-radius:16px;padding:12px 14px;min-height:92px}
+.fachkachel .icon{font-size:30px;line-height:1;margin-top:2px}.fachtext{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.fachtext span{font-size:13px;color:var(--leise)}
+.fachtext .mini div{background:var(--f)}
+.kopf{background:linear-gradient(135deg,var(--f,var(--akzent)),color-mix(in srgb,var(--f,var(--akzent)) 60%,#fff));color:#fff;border-radius:20px;padding:18px 20px;margin-bottom:14px}
+.kopf p{margin:0}.kopf .klein{color:#fff;opacity:.9;margin-top:6px}.kopf h1{color:#fff}
+.fachkopf{display:flex;gap:14px;align-items:center}.fachkopf .icon{font-size:44px}
+.fortschritt{height:8px;background:rgba(255,255,255,.35);border-radius:4px;margin-top:12px;overflow:hidden}.fortschritt div{height:100%;background:#fff}
+.themen{display:grid;gap:8px}
+.thema{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;background:var(--karte);border:1px solid var(--rand);border-radius:14px;padding:12px 14px;width:100%;margin-top:0}
+.thema>div:first-child{display:flex;flex-direction:column;min-width:0}.thema span{font-size:13px;color:var(--leise)}.thema .rechts{text-align:right;display:flex;flex-direction:column;align-items:flex-end;white-space:nowrap}
+.sterne{color:var(--gold);font-size:18px;letter-spacing:1px}.sterne .leer{color:var(--rand)}
+.bosskachel{display:flex;gap:14px;align-items:center;text-align:left;width:100%;background:linear-gradient(135deg,#2b2140,#4a2f6b);color:#fff;border:0;border-radius:16px;padding:14px 16px;margin-bottom:6px}
+.bosskachel .icon{font-size:40px}.bosskachel span{display:block;font-size:13px;opacity:.85}.bosskachel.besiegt{background:linear-gradient(135deg,#1e5a3a,#2e8b57)}
+.themat{margin-top:4px}
+.erkl{line-height:1.6}.erkl table{border-collapse:collapse;margin:8px 0}.erkl td,.erkl th{border:1px solid var(--rand);padding:4px 8px;text-align:left}
+details{background:var(--karte);border:1px solid var(--rand);border-radius:14px;padding:10px 14px;margin:10px 0}summary{font-weight:600;cursor:pointer}
+
+/* Aufgaben-Läufer */
+.laufkopf{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:40px}
+.zaehler{font-weight:700;color:var(--leise)}.kombo{background:#ffecd2;color:#c2410c;border-radius:999px;padding:2px 10px;font-weight:700;font-size:14px;animation:pop .3s}
+.balken{height:8px;background:var(--rand);border-radius:4px;overflow:hidden;margin:6px 0 14px}.balken div{height:100%;background:var(--akzent);transition:width .4s}
+.boss{display:flex;gap:12px;align-items:center;background:#2b2140;color:#fff;border-radius:16px;padding:10px 14px;margin-bottom:14px}
+.bossbild{font-size:40px;transition:transform .2s}.bossbild.tot{filter:grayscale(1);opacity:.5}.bossinfo{flex:1}.boss .klein{color:#fff;opacity:.85}
+.hpbalken{height:10px;background:rgba(255,255,255,.25);border-radius:5px;overflow:hidden;margin:4px 0}.hpbalken div{height:100%;background:#ff4d4d;transition:width .4s}
+.frage{background:var(--karte);border:1px solid var(--rand);border-radius:16px;padding:18px;font-size:20px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.frage.satz{font-weight:500;line-height:1.7;display:block}.luecke{color:var(--akzent);font-weight:700}
+.wahl{display:grid;gap:8px}.wahl button{background:var(--karte);border:2px solid var(--rand);border-radius:12px;padding:12px 14px;text-align:left;min-height:48px}
+.wahl button.ok,.paare button.ok,.gewaehlt .ok{border-color:var(--gut);background:color-mix(in srgb,var(--gut) 18%,var(--karte))}
+.wahl button.falsch,.paare button.falsch,.gewaehlt .falsch{border-color:var(--schlecht);background:color-mix(in srgb,var(--schlecht) 18%,var(--karte));animation:wackel .4s}
+.wahl button:disabled{cursor:default}
+.paare{display:grid;grid-template-columns:1fr 1fr;gap:10px}.spalte{display:grid;gap:8px;align-content:start}
+.paare button{background:var(--karte);border:2px solid var(--rand);border-radius:12px;padding:10px;min-height:48px;font-size:15px}.paare button.aktiv{border-color:var(--akzent);background:color-mix(in srgb,var(--akzent) 15%,var(--karte))}
+.paare button:disabled{opacity:.6}
+.gewaehlt{display:grid;gap:6px;margin-bottom:10px;min-height:30px}.gewaehlt div{background:var(--karte);border:2px solid var(--akzent);border-radius:10px;padding:8px 12px;display:flex;gap:10px;align-items:center}
+.nr{background:var(--akzent);color:#fff;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none}
+.rm{border-radius:14px;padding:14px;margin-top:4px;font-weight:600}.rm.ja{background:color-mix(in srgb,var(--gut) 16%,var(--karte));color:var(--gut)}
+.rm.nein{background:color-mix(in srgb,var(--schlecht) 14%,var(--karte));color:var(--schlecht)}
+.loesung{color:var(--text);font-size:19px;margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rm .info{font-weight:400;color:var(--text);margin-top:8px;font-size:15px}.rm .klein{color:var(--text)}.loesungliste{color:var(--text);font-weight:400;margin:8px 0 0}
+.deine{color:var(--leise);font-size:15px;margin-bottom:6px}
+.karte{background:var(--karte);border:1px solid var(--rand);border-radius:20px;min-height:220px;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:12px;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.06)}
+.karte .en{font-size:28px;font-weight:700}.karte .de{font-size:22px;font-weight:600}.karte.hinten{border-color:var(--akzent)}.bsp{font-style:italic;color:var(--leise)}
+
+/* Ergebnis */
+.ergebnis{background:var(--karte);border:1px solid var(--rand);border-radius:20px;padding:22px;text-align:center}
+.ergebnis .titel{font-size:24px;font-weight:800}.ergebnis .gross{font-size:48px;font-weight:800;color:var(--akzent);margin:6px 0}
+.belohnung{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}.belohnung span{background:var(--bg);border:1px solid var(--rand);border-radius:999px;padding:6px 14px;font-weight:700}
+.levelup{margin-top:14px;font-size:20px;font-weight:800;color:var(--gold);animation:pop .5s}
+.neuabz{margin-top:10px;background:color-mix(in srgb,var(--gold) 15%,var(--karte));border-radius:12px;padding:10px;font-size:15px}
+.fehler li{margin-bottom:10px}
+.bossintro{text-align:center;padding:20px 0}.bossgross{font-size:90px;line-height:1;animation:schweb 3s ease-in-out infinite}
+
+/* Shop / Profil */
+.shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.shopitem{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--karte);border:2px solid var(--rand);border-radius:14px;padding:12px 8px;font-size:13px}
+.shopitem .big{font-size:36px}.shopitem .swatch{width:40px;height:40px;border-radius:50%;border:4px solid}.shopitem span{font-size:12px;color:var(--leise)}
+.shopitem.aktiv{border-color:var(--akzent)}.shopitem.zu{opacity:.75}.shopitem.wackel{animation:wackel .4s}
+.avatare{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.avatare button{display:flex;flex-direction:column;align-items:center;background:var(--karte);border:2px solid var(--rand);border-radius:14px;padding:12px;font-size:14px}
+.avatare button span{font-size:40px}.avatare button.aktiv{border-color:var(--akzent)}
+.profilkarte{display:flex;gap:16px;align-items:center;margin:16px 0}.profilkarte p{margin:0;color:var(--leise)}
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.statgrid div{background:var(--karte);border:1px solid var(--rand);border-radius:12px;padding:10px;text-align:center}
+.statgrid b{display:block;font-size:20px}.statgrid span{font-size:12px;color:var(--leise)}
+.abzgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.abz{background:var(--karte);border:1px solid var(--rand);border-radius:14px;padding:12px;text-align:center;display:flex;flex-direction:column;gap:3px;opacity:.45;filter:grayscale(1)}
+.abz.hat{opacity:1;filter:none;border-color:var(--gold)}.abz .e{font-size:34px}.abz span{font-size:12px;color:var(--leise)}
+.schalter{display:flex;gap:10px;align-items:center;font-size:17px}.schalter input{width:24px;height:24px}
+.log{list-style:none;padding:0}.log li{background:var(--karte);border:1px solid var(--rand);border-radius:10px;padding:8px 12px;font-size:14px}
+
+/* Untere Leiste */
+.unten{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;background:var(--karte);border-top:1px solid var(--rand);padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:5}
+.unten button{background:none;border:0;display:flex;flex-direction:column;align-items:center;font-size:12px;color:var(--leise);padding:4px 14px;gap:2px}
+.unten button span{font-size:22px}.unten button.aktiv{color:var(--akzent);font-weight:700}
+
+@keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes wackel{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes schweb{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}

@@ -1,0 +1,13 @@
+{
+  "name": "Lernwelt – Schule als Spiel",
+  "short_name": "Lernwelt",
+  "description": "Alle Fächer ab Klasse 9 als Spiel: XP, Level, Streaks, Quests, Boss-Kämpfe.",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdf6ee",
+  "theme_color": "#e0632f",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
